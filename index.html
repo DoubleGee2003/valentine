@@ -87,7 +87,7 @@
 </head>
 <body>
 
-  <div class="card">
+  <div class="card" id="card">
     <h1>Will you be my Valentine, Eva? 💘</h1>
     <button id="yes" onclick="yesClicked()">Yes 💕</button>
     <button id="no" onmouseover="moveButton()">No 🙈</button>
@@ -110,8 +110,9 @@
       // Herzanimation starten
       startHearts();
 
-      // Liebesnachricht anzeigen, Musik bleibt sichtbar
-      document.querySelector('.card').innerHTML = `
+      // Liebesnachricht anzeigen – Musik bleibt im DOM, nicht neu erzeugen
+      const card = document.getElementById("card");
+      card.innerHTML = `
         <h1>💖 Eva 💖</h1>
         <p>
           Falling in love with you was the easiest thing I've ever done.<br><br>
