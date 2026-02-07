@@ -119,6 +119,17 @@
           <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
         </div>
       `;
+
+      // Musik automatisch starten (benutzerinteraktion wird akzeptiert)
+      const song = document.getElementById("loveSong");
+      song.volume = 0.6;
+      const playPromise = song.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Falls Browser blockiert, Musik-Controls bleiben sichtbar
+          console.log("Autoplay blockiert, Benutzer kann Play drücken.");
+        });
+      }
     }
 
     function moveButton() {
