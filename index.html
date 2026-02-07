@@ -89,6 +89,7 @@
     <button id="no" onmouseover="moveButton()">No 🙈</button>
 
     <div id="musicContainer">
+      <!-- Musik immer sichtbar, Benutzer kann Play drücken -->
       <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
     </div>
   </div>
@@ -106,7 +107,7 @@
       // Herzanimation starten
       startHearts();
 
-      // Liebesnachricht anzeigen und Musik weiterhin sichtbar lassen
+      // Liebesnachricht anzeigen und Musik-Controls beibehalten
       document.querySelector('.card').innerHTML = `
         <h1>💖 Eva 💖</h1>
         <p>
@@ -120,14 +121,14 @@
         </div>
       `;
 
-      // Musik automatisch starten (benutzerinteraktion wird akzeptiert)
+      // Musik automatisch versuchen zu starten
       const song = document.getElementById("loveSong");
       song.volume = 0.6;
       const playPromise = song.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Falls Browser blockiert, Musik-Controls bleiben sichtbar
-          console.log("Autoplay blockiert, Benutzer kann Play drücken.");
+          // Autoplay blockiert? Benutzer kann Play drücken
+          console.log("Autoplay blockiert, bitte Play drücken.");
         });
       }
     }
