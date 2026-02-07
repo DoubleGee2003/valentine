@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Valentine 💘</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      max-width: 420px;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #yes {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background-color: #ddd;
+      position: relative;
+    }
+
+    p {
+      color: #444;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    .heart {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Musik -->
+  <audio id="loveSong" src="queen-of-disaster.mp3"></audio>
+
+  <div class="card">
+    <h1>Will you be my Valentine, Eva? 💘</h1>
+    <button id="yes" onclick="yesClicked()">Yes 💕</button>
+    <button id="no" onmouseover="moveButton()">No 🙈</button>
+  </div>
+
+  <script>
+    function yesClicked() {
+      document.querySelector('.card').innerHTML = `
+        <h1>💖 Eva 💖</h1>
+        <p>
+          Falling in love with you was the easiest thing I've ever done.<br><br>
+          Nothing matters to me but you. And every day I'm aware of this.<br><br>
+          I loved you the day I met you. I love you today, and I will love you
+          for the rest of my life.
+        </p>
+      `;
+      startHearts();
+      playMusic();
+    }
+
+    function moveButton() {
+      const noBtn = document.getElementById("no");
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
+
+    function playMusic() {
+      const song = document.getElementById("loveSong");
+      song.volume = 0.6;
+      song.play();
+    }
+  </script>
+</body>
+</html>
