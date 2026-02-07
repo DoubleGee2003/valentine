@@ -50,20 +50,6 @@
       position: relative;
     }
 
-    #musicFallback {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #ff4d6d;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      z-index: 10;
-      display: none; /* wird nur angezeigt, falls Autoplay blockiert */
-    }
-
     p {
       color: #444;
       line-height: 1.6;
@@ -89,10 +75,7 @@
 <body>
 
   <!-- Musik -->
-  <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" loop></audio>
-
-  <!-- Fallback-Button, falls Browser blockiert -->
-  <button id="musicFallback">Klicke hier für Musik 🎵</button>
+  <audio id="loveSong" src="queen-of-disaster.mp3"></audio>
 
   <div class="card">
     <h1>Will you be my Valentine, Eva? 💘</h1>
@@ -101,27 +84,6 @@
   </div>
 
   <script>
-    const song = document.getElementById("loveSong");
-    const fallbackBtn = document.getElementById("musicFallback");
-
-    // Versuch, Musik direkt beim Laden abzuspielen
-    window.addEventListener("load", () => {
-      const playPromise = song.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(err => {
-          // Autoplay blockiert → Button anzeigen
-          fallbackBtn.style.display = "inline-block";
-          console.log("Autoplay blockiert:", err);
-        });
-      }
-    });
-
-    // Fallback-Button klick → Musik starten
-    fallbackBtn.addEventListener("click", () => {
-      song.play();
-      fallbackBtn.style.display = "none";
-    });
-
     function yesClicked() {
       document.querySelector('.card').innerHTML = `
         <h1>💖 Eva 💖</h1>
@@ -133,7 +95,7 @@
         </p>
       `;
       startHearts();
-      // Musik ist bereits beim Laden gestartet oder läuft nach Klick auf Button
+      playMusic();
     }
 
     function moveButton() {
@@ -154,6 +116,12 @@
 
         setTimeout(() => heart.remove(), 5000);
       }, 300);
+    }
+
+    function playMusic() {
+      const song = document.getElementById("loveSong");
+      song.volume = 0.6;
+      song.play();
     }
   </script>
 </body>
