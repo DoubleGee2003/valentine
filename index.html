@@ -40,9 +40,15 @@
       margin: 10px;
     }
 
+    #playMusic {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
     #yes {
       background-color: #ff4d6d;
       color: white;
+      display: none; /* erst nach Musikstart sichtbar */
     }
 
     #no {
@@ -79,30 +85,35 @@
 
   <div class="card">
     <h1>Will you be my Valentine, Eva? 💘</h1>
+    <button id="playMusic">Play Music 🎵</button>
     <button id="yes">Yes 💕</button>
     <button id="no">No 🙈</button>
   </div>
 
   <script>
+    const playBtn = document.getElementById("playMusic");
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const card = document.querySelector(".card");
     const song = document.getElementById("loveSong");
 
-    yesBtn.addEventListener("click", () => {
-      // Musik sofort starten – direkt vom Klick
-      song.volume = 0.6;
+    // 1️⃣ Musik starten (erster Klick)
+    playBtn.addEventListener("click", () => {
       const playPromise = song.play();
-
-      // Falls Browser blockiert, Hinweis anzeigen
       if (playPromise !== undefined) {
         playPromise.catch(err => {
-          alert("Bitte klicke erneut, um die Musik zu starten 🎵");
-          console.log("Musik konnte nicht abgespielt werden:", err);
+          alert("Musik blockiert – bitte erneut klicken 🎵");
+          console.log(err);
+          return;
         });
       }
+      // Musik läuft – Yes-Button anzeigen, Play-Button ausblenden
+      playBtn.style.display = "none";
+      yesBtn.style.display = "inline-block";
+    });
 
-      // Nachricht anzeigen
+    // 2️⃣ Nachricht & Herzen (zweiter Klick)
+    yesBtn.addEventListener("click", () => {
       card.innerHTML = `
         <h1>💖 Eva 💖</h1>
         <p>
@@ -112,8 +123,6 @@
           for the rest of my life.
         </p>
       `;
-
-      // Herzen starten
       startHearts();
     });
 
@@ -124,6 +133,7 @@
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
+    // Herzen animieren
     function startHearts() {
       setInterval(() => {
         const heart = document.createElement("div");
