@@ -15,7 +15,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      transition: background 1.5s ease; /* sanfter Übergang */
+      transition: background 1.5s ease;
     }
 
     .card {
@@ -54,6 +54,13 @@
     #playMusicBtn {
       background-color: #ffcc00;
       color: #000;
+      display: none; /* versteckt, wird nur bei Bedarf angezeigt */
+    }
+
+    #musicHint {
+      color: #ff4d6d;
+      margin-top: 15px;
+      display: none;
     }
 
     p {
@@ -89,6 +96,7 @@
     <button id="no" onmouseover="moveButton()">No 🙈</button>
     <br>
     <button id="playMusicBtn" onclick="playMusic()">Click here for music 🎵</button>
+    <div id="musicHint">🎵 Klicke den Button, wenn die Musik nicht automatisch startet!</div>
   </div>
 
   <script>
@@ -110,8 +118,10 @@
           I loved you the day I met you. I love you today, and I will love you
           for the rest of my life.
         </p>
+        <button id="playMusicBtn" onclick="playMusic()">Click here for music 🎵</button>
+        <div id="musicHint">🎵 Klicke den Button, wenn die Musik nicht automatisch startet!</div>
       `;
-      
+
       startHearts();
       playMusic();
     }
@@ -139,7 +149,21 @@
     function playMusic() {
       const song = document.getElementById("loveSong");
       song.volume = 0.6;
-      song.play();
+      const playPromise = song.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("Musik spielt!");
+            document.getElementById("playMusicBtn").style.display = "none";
+            document.getElementById("musicHint").style.display = "none";
+          })
+          .catch(error => {
+            // Musik konnte nicht automatisch starten → Hinweis anzeigen
+            document.getElementById("playMusicBtn").style.display = "inline-block";
+            document.getElementById("musicHint").style.display = "block";
+          });
+      }
     }
   </script>
 </body>
