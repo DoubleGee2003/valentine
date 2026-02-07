@@ -61,12 +61,16 @@
       position: fixed;
       top: -10px;
       font-size: 24px;
-      animation: fall linear forwards;
+      animation: fall 4s linear forwards;
       z-index: 1;
     }
 
     @keyframes fall {
-      to {
+      0% {
+        transform: translateY(-10px);
+        opacity: 1;
+      }
+      100% {
         transform: translateY(110vh);
         opacity: 0;
       }
@@ -89,14 +93,13 @@
     <button id="no" onmouseover="moveButton()">No 🙈</button>
 
     <div id="musicContainer">
-      <!-- Musik immer sichtbar, Benutzer kann Play drücken -->
       <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
     </div>
   </div>
 
   <script>
     function yesClicked() {
-      // Hintergrund auf background2.jpg mit Farbverlauf ändern
+      // Hintergrund ändern
       document.body.style.background = `
         linear-gradient(rgba(255,182,193,0.4), rgba(255,105,180,0.4)),
         url('background2.jpg')
@@ -107,7 +110,7 @@
       // Herzanimation starten
       startHearts();
 
-      // Liebesnachricht anzeigen und Musik-Controls beibehalten
+      // Liebesnachricht anzeigen, Musik bleibt sichtbar
       document.querySelector('.card').innerHTML = `
         <h1>💖 Eva 💖</h1>
         <p>
@@ -120,17 +123,6 @@
           <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
         </div>
       `;
-
-      // Musik automatisch versuchen zu starten
-      const song = document.getElementById("loveSong");
-      song.volume = 0.6;
-      const playPromise = song.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay blockiert? Benutzer kann Play drücken
-          console.log("Autoplay blockiert, bitte Play drücken.");
-        });
-      }
     }
 
     function moveButton() {
