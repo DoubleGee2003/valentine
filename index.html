@@ -93,7 +93,7 @@
     <button id="no" onmouseover="moveButton()">No 🙈</button>
 
     <div id="musicContainer">
-      <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
+      <audio id="loveSong" src="cola.mp3" preload="auto" controls></audio>
     </div>
   </div>
 
@@ -110,7 +110,7 @@
       // Herzanimation starten
       startHearts();
 
-      // Liebesnachricht anzeigen – Musik bleibt im DOM, nicht neu erzeugen
+      // Liebesnachricht anzeigen – Musik bleibt im DOM
       const card = document.getElementById("card");
       card.innerHTML = `
         <h1>💖 Eva 💖</h1>
@@ -121,7 +121,7 @@
           for the rest of my life.
         </p>
         <div id="musicContainer">
-          <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
+          <audio id="loveSong" src="cola.mp3" preload="auto" controls></audio>
         </div>
       `;
     }
