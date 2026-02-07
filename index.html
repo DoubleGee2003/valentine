@@ -15,7 +15,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      transition: background 1.5s ease; /* sanfter Übergang */
+      transition: background 1.5s ease;
     }
 
     .card {
@@ -51,11 +51,6 @@
       position: relative;
     }
 
-    #playMusicBtn {
-      background-color: #ffcc00;
-      color: #000;
-    }
-
     p {
       color: #444;
       line-height: 1.6;
@@ -76,24 +71,31 @@
         opacity: 0;
       }
     }
+
+    #musicContainer {
+      margin-top: 15px;
+    }
+
+    #loveSong {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
-
-  <!-- Musik -->
-  <audio id="loveSong" src="queen-of-disaster.mp3"></audio>
 
   <div class="card">
     <h1>Will you be my Valentine, Eva? 💘</h1>
     <button id="yes" onclick="yesClicked()">Yes 💕</button>
     <button id="no" onmouseover="moveButton()">No 🙈</button>
-    <br>
-    <button id="playMusicBtn" onclick="playMusic()">Click here for music 🎵</button>
+
+    <div id="musicContainer">
+      <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
+    </div>
   </div>
 
   <script>
     function yesClicked() {
-      // Hintergrund auf background2.jpg mit sanftem Farbverlauf ändern
+      // Hintergrund auf background2.jpg mit Farbverlauf ändern
       document.body.style.background = `
         linear-gradient(rgba(255,182,193,0.4), rgba(255,105,180,0.4)),
         url('background2.jpg')
@@ -101,7 +103,10 @@
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundPosition = "center";
 
-      // Karte aktualisieren
+      // Herzanimation starten
+      startHearts();
+
+      // Liebesnachricht anzeigen und Musik weiterhin sichtbar lassen
       document.querySelector('.card').innerHTML = `
         <h1>💖 Eva 💖</h1>
         <p>
@@ -110,10 +115,10 @@
           I loved you the day I met you. I love you today, and I will love you
           for the rest of my life.
         </p>
+        <div id="musicContainer">
+          <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" controls></audio>
+        </div>
       `;
-      
-      startHearts();
-      playMusic();
     }
 
     function moveButton() {
@@ -134,12 +139,6 @@
 
         setTimeout(() => heart.remove(), 5000);
       }, 300);
-    }
-
-    function playMusic() {
-      const song = document.getElementById("loveSong");
-      song.volume = 0.6;
-      song.play();
     }
   </script>
 </body>
