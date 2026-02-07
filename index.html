@@ -31,31 +31,6 @@
       color: #ff4d6d;
     }
 
-    button {
-      padding: 12px 28px;
-      font-size: 16px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 10px;
-    }
-
-    #playMusic {
-      background-color: #ff4d6d;
-      color: white;
-    }
-
-    #yes {
-      background-color: #ff4d6d;
-      color: white;
-      display: none; /* erst nach Musikstart sichtbar */
-    }
-
-    #no {
-      background-color: #ddd;
-      position: relative;
-    }
-
     p {
       color: #444;
       line-height: 1.6;
@@ -76,54 +51,80 @@
         opacity: 0;
       }
     }
+
+    #musicFallback {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 10;
+      display: none; /* wird nur angezeigt, falls Autoplay blockiert */
+    }
+
+    #no {
+      background-color: #ddd;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      position: relative;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
   <!-- Musik -->
-  <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto"></audio>
+  <audio id="loveSong" src="queen-of-disaster.mp3" preload="auto" loop></audio>
+
+  <!-- Fallback-Button, falls Browser blockiert -->
+  <button id="musicFallback">Klicke hier für Musik 🎵</button>
 
   <div class="card">
-    <h1>Will you be my Valentine, Eva? 💘</h1>
-    <button id="playMusic">Play Music 🎵</button>
-    <button id="yes">Yes 💕</button>
+    <h1>💖 Eva 💖</h1>
+    <p>
+      Falling in love with you was the easiest thing I've ever done.<br><br>
+      Nothing matters to me but you. And every day I'm aware of this.<br><br>
+      I loved you the day I met you. I love you today, and I will love you
+      for the rest of my life.
+    </p>
     <button id="no">No 🙈</button>
   </div>
 
   <script>
-    const playBtn = document.getElementById("playMusic");
-    const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
-    const card = document.querySelector(".card");
     const song = document.getElementById("loveSong");
+    const fallbackBtn = document.getElementById("musicFallback");
+    const noBtn = document.getElementById("no");
 
-    // 1️⃣ Musik starten (erster Klick)
-    playBtn.addEventListener("click", () => {
+    // Funktion, die Musik startet und fallback-Button ausblendet
+    function playMusic() {
       const playPromise = song.play();
       if (playPromise !== undefined) {
         playPromise.catch(err => {
-          alert("Musik blockiert – bitte erneut klicken 🎵");
-          console.log(err);
-          return;
+          // Autoplay blockiert → Button zeigen
+          fallbackBtn.style.display = "inline-block";
+          console.log("Autoplay blockiert, Button anzeigen:", err);
         });
+      } else {
+        fallbackBtn.style.display = "none";
       }
-      // Musik läuft – Yes-Button anzeigen, Play-Button ausblenden
-      playBtn.style.display = "none";
-      yesBtn.style.display = "inline-block";
+    }
+
+    // Direkt beim Laden versuchen Musik zu starten
+    window.addEventListener("load", () => {
+      playMusic();
+      startHearts();
     });
 
-    // 2️⃣ Nachricht & Herzen (zweiter Klick)
-    yesBtn.addEventListener("click", () => {
-      card.innerHTML = `
-        <h1>💖 Eva 💖</h1>
-        <p>
-          Falling in love with you was the easiest thing I've ever done.<br><br>
-          Nothing matters to me but you. And every day I'm aware of this.<br><br>
-          I loved you the day I met you. I love you today, and I will love you
-          for the rest of my life.
-        </p>
-      `;
-      startHearts();
+    // Fallback-Button klick → Musik starten
+    fallbackBtn.addEventListener("click", () => {
+      playMusic();
+      fallbackBtn.style.display = "none";
     });
 
     // "No"-Button entkommt dem Cursor
@@ -147,5 +148,6 @@
       }, 300);
     }
   </script>
+
 </body>
 </html>
